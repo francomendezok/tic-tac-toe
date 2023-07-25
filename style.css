@@ -34,32 +34,48 @@ ol, ul {
 :root {
     --topbottom: #405cf5;
 }
+
+html {
+    width: 100%;
+    height: 100%; 
+}
+
 body {
-    max-height: 100%;
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     display: grid;
-    grid-template-rows: 2fr 12fr 1fr;
+    grid-template-rows: 1fr 4fr 1fr; 
+    /* background-color: var(--topbottom); */
     font-family: -apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif;
 }
 
 header {
     background-color: var(--topbottom);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
     color: white;
-    display: grid;
-    place-items: center;
-    font-size: 300%;
+    font-size: 400%;
 }
 
 main {
-    background-color: lightsalmon;
+    background-color: #F67280;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+#description {
+    color: black;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin: auto;
+    font-size: 150%;
 }
 
 #container {
@@ -67,10 +83,10 @@ main {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     border: 5px solid black;
-    width: 400px;
-    height: 400px;
+    width: 350px;
+    height: 350px;
     box-shadow: 0 5px 6px rgba(0, 0, 0, 0.3);
-    margin-bottom: 20px;
+    margin: auto;
 }
 
 #container > div {
@@ -107,6 +123,8 @@ button {
   -webkit-user-select: none;
   touch-action: manipulation;
   width: 200px;
+  margin: auto;
+
 }
 
 button:disabled {
@@ -123,6 +141,14 @@ footer {
     justify-content: space-evenly;
     background-color: var(--topbottom);
     color: white;
+    font-size: 150%;
+}
+
+.display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 500%;
 }
 
 
