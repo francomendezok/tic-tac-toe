@@ -1,14 +1,33 @@
+const box = document.querySelectorAll(".box");
+const restart = document.getElementById("restart");
+const container = document.getElementById("container");
+const description = document.getElementById("description");
+const arrayOfBoxes =  Array.from(box);
+
 // Module //
 const gameBoard = (() => {
-    let game = ["X","O","X","O"];
+    let game = [];
     let players = {};
     let gameFlow = {};
+    const getTurn = () => {
+        return description.textContent
+    }
+    const changeTurn = () => {
+        if (description.textContent === "Player 1's turn") {
+            description.textContent = "Player 2's turn";
+        }
+        else {
+            description.textContent = "Player 1's turn"
+        }
+        return description.textContent;
+    }
 
     return {
-        game
+        game,
+        getTurn,
+        changeTurn,
     };
 })();
-
 
 
 // Factory Function with Closure //
@@ -20,26 +39,39 @@ const Player = (player, icon) => {
 const player1 = Player(1, "X");
 const player2 = Player(2, "O");
 
+
 function render () {
-    for (let i = 0; i < gameBoard.game.length; i++) {
-        box[i].innerHTML += gameBoard.game[i];
-        box[i].className = "display";
-        
-    }
+    arrayOfBoxes.forEach((box, index) => {
+        box.innerHTML = gameBoard.game[index] || "";
+        box.className = "display";
+      }); 
 }
 
-const box = document.querySelectorAll(".box");
-const restart = document.getElementById("restart");
-const container = document.getElementById("container");
 
-// Develop feature that add x or o into the array and print it //
+
     box.forEach((box, index) => {
         box.addEventListener("click", function () {
-            box.style.backgroundColor = "red";
-        })
+            if (!box.innerHTML) {
+
+                if (gameBoard.getTurn() === "Player 1's turn") {
+                    gameBoard.game[index] = "X";
+                    gameBoard.changeTurn();
+                    render();
+                }
+                else {
+                    gameBoard.game[index] = "O";
+                    gameBoard.changeTurn();
+                    render();
+                }
+            }  
+        });
     });
 
 
+    restart.addEventListener("click", () => {
+        gameBoard.game.splice(0, gameBoard.game.length);
+        render();
+        description.textContent = "Player 1's turn";
+    })
 
-
-render();
+    // Check if there is a winner or it is a draw and print it on the description parragraph // 
