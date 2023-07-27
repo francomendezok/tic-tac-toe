@@ -7,8 +7,6 @@ const arrayOfBoxes =  Array.from(box);
 // Module //
 const gameBoard = (() => {
     let game = [];
-    let players = {};
-    let gameFlow = {};
     let winner = false;
 
     const checkWinner = () => {
@@ -32,8 +30,7 @@ const gameBoard = (() => {
             gameBoard.winner = true; 
         }
     }    
-};
-      
+    };
     const getPlayer = () => {
         if (description.textContent.includes("1")) return 1;
         else return 2;
@@ -50,38 +47,29 @@ const gameBoard = (() => {
         }
         return description.textContent;
     }
+    const render = () => {
+        arrayOfBoxes.forEach((box, index) => {
+            box.innerHTML = gameBoard.game[index] || "";
+            box.className = "display";
+        }); 
+        if (gameBoard.game.length === 9 && !gameBoard.game.includes(undefined)) {
+            description.textContent = "It's a Draw";
+            restart.className = "animated";
+        }
+        gameBoard.checkWinner(); 
+    };
 
     return {
         game,
         getTurn,
         changeTurn,
         checkWinner,
-        winner
+        winner,
+        render
     };
 })();
 
 
-// Factory Function with Closure //
-const Player = (player, icon) => {
-    
-    return {player, icon}
-}
-
-const player1 = Player(1, "X");
-const player2 = Player(2, "O");
-
-
-function render () {
-    arrayOfBoxes.forEach((box, index) => {
-        box.innerHTML = gameBoard.game[index] || "";
-        box.className = "display";
-    }); 
-    if (gameBoard.game.length === 9 && !gameBoard.game.includes(undefined)) {
-        description.textContent = "It's a Draw";
-        restart.className = "animated";
-    }
-    gameBoard.checkWinner(); 
-};
 
 
 
@@ -94,14 +82,14 @@ function render () {
                     if (!gameBoard.winner)  {
                         gameBoard.game[index] = "X";
                         gameBoard.changeTurn();
-                        render();
+                        gameBoard.render();
                     } 
                 }
                 else {
                     if (!gameBoard.winner)  {
                     gameBoard.game[index] = "O";
                     gameBoard.changeTurn();
-                    render();
+                    gameBoard.render();
                     } 
                 }
             }  
@@ -111,7 +99,7 @@ function render () {
 
     restart.addEventListener("click", () => {
         gameBoard.game.splice(0, gameBoard.game.length);
-        render();
+        gameBoard.render();
         description.textContent = "Player 1's turn";
         restart.classList.remove("animated");
         gameBoard.winner = false;
