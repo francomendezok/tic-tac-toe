@@ -9,27 +9,30 @@ const gameBoard = (() => {
     let game = [];
     let players = {};
     let gameFlow = {};
+    let winner = false;
 
     const checkWinner = () => {
         const winningCombinations = [
-          [0, 1, 2], // Primera fila
-          [3, 4, 5], // Segunda fila
-          [6, 7, 8], // Tercera fila
-          [0, 3, 6], // Primera columna
-          [1, 4, 7], // Segunda columna
-          [2, 5, 8], // Tercera columna
-          [0, 4, 8], // Diagonal de izquierda a derecha
-          [2, 4, 6], // Diagonal de derecha a izquierda
+          [0, 1, 2],
+          [3, 4, 5], 
+          [6, 7, 8], 
+          [0, 3, 6], 
+          [1, 4, 7],
+          [2, 5, 8], 
+          [0, 4, 8], 
+          [2, 4, 6], 
         ];
       
         for (const combination of winningCombinations) {
           const [a, b, c] = combination;
           if (game[a] && game[a] === game[b] && game[a] === game[c]) {
             changeTurn();
-            description.textContent = `Winner Player ${getPlayer()}`;           
+            description.textContent = `Winner Player ${getPlayer()}`;  
+            restart.className = "animated";
+            gameBoard.winner = true; 
         }
-    }
-      };
+    }    
+};
       
     const getPlayer = () => {
         if (description.textContent.includes("1")) return 1;
@@ -52,7 +55,8 @@ const gameBoard = (() => {
         game,
         getTurn,
         changeTurn,
-        checkWinner
+        checkWinner,
+        winner
     };
 })();
 
@@ -72,9 +76,11 @@ function render () {
         box.innerHTML = gameBoard.game[index] || "";
         box.className = "display";
     }); 
-    
-    gameBoard.checkWinner();
-        
+    if (gameBoard.game.length === 9 && !gameBoard.game.includes(undefined)) {
+        description.textContent = "It's a Draw";
+        restart.className = "animated";
+    }
+    gameBoard.checkWinner(); 
 };
 
 
@@ -85,14 +91,18 @@ function render () {
             if (!box.innerHTML) {
 
                 if (gameBoard.getTurn() === "Player 1's turn") {
-                    gameBoard.game[index] = "X";
-                    gameBoard.changeTurn();
-                    render();
+                    if (!gameBoard.winner)  {
+                        gameBoard.game[index] = "X";
+                        gameBoard.changeTurn();
+                        render();
+                    } 
                 }
                 else {
+                    if (!gameBoard.winner)  {
                     gameBoard.game[index] = "O";
                     gameBoard.changeTurn();
                     render();
+                    } 
                 }
             }  
         });
@@ -103,6 +113,7 @@ function render () {
         gameBoard.game.splice(0, gameBoard.game.length);
         render();
         description.textContent = "Player 1's turn";
+        restart.classList.remove("animated");
+        gameBoard.winner = false;
     })
 
-    // Check if there is a winner or it is a draw and print it on the description parragraph // 

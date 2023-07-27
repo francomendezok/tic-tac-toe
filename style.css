@@ -63,7 +63,7 @@ h1 {
 }
 
 main {
-    background-color: #F67280;
+    background-color: #f1f5f9;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,8 +83,8 @@ main {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     border: 5px solid black;
-    width: 350px;
-    height: 350px;
+    width: 450px;
+    height: 450px;
     box-shadow: 0 5px 6px rgba(0, 0, 0, 0.3);
     margin: auto;
 }
@@ -93,6 +93,11 @@ main {
     border: 3px solid black;
     height: 100%;
     width: 100%;
+    cursor: pointer;
+}
+
+#container > div:hover {
+  border: 3px solid var(--topbottom);
 }
 
 
@@ -131,9 +136,6 @@ button:disabled {
   cursor: default;
 }
 
-button:focus {
-  box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
-}
 
 footer {
     display: flex;
@@ -144,11 +146,67 @@ footer {
     font-size: 150%;
 }
 
+a {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  text-decoration: none;
+}
+
+a > div {
+  margin-left: 8px;
+}
+
 .display {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 500%;
 }
+
+@keyframes myAnimation {
+    0% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-5px);
+      }
+      50% {
+        transform: translateX(5px);
+      }
+      75% {
+        transform: translateX(-5px);
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+  .animated {
+    animation: myAnimation 2s ease-in-out infinite;
+  }
+
+
+  @media (max-width: 500px) {
+    #container {
+       width: 250px;
+       height: 250px;
+    }
+
+    .display {
+        font-size: 300%;
+    }
+  }
+
+  @media (min-width:768px) and (max-width: 1024px) {
+    #container {
+       width: 300px;
+       height: 300px;
+    }
+
+    .display {
+        font-size: 400%;
+    }
+  }
 
 
