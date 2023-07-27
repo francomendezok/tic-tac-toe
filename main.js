@@ -9,6 +9,32 @@ const gameBoard = (() => {
     let game = [];
     let players = {};
     let gameFlow = {};
+
+    const checkWinner = () => {
+        const winningCombinations = [
+          [0, 1, 2], // Primera fila
+          [3, 4, 5], // Segunda fila
+          [6, 7, 8], // Tercera fila
+          [0, 3, 6], // Primera columna
+          [1, 4, 7], // Segunda columna
+          [2, 5, 8], // Tercera columna
+          [0, 4, 8], // Diagonal de izquierda a derecha
+          [2, 4, 6], // Diagonal de derecha a izquierda
+        ];
+      
+        for (const combination of winningCombinations) {
+          const [a, b, c] = combination;
+          if (game[a] && game[a] === game[b] && game[a] === game[c]) {
+            changeTurn();
+            description.textContent = `Winner Player ${getPlayer()}`;           
+        }
+    }
+      };
+      
+    const getPlayer = () => {
+        if (description.textContent.includes("1")) return 1;
+        else return 2;
+    }
     const getTurn = () => {
         return description.textContent
     }
@@ -26,6 +52,7 @@ const gameBoard = (() => {
         game,
         getTurn,
         changeTurn,
+        checkWinner
     };
 })();
 
@@ -44,8 +71,12 @@ function render () {
     arrayOfBoxes.forEach((box, index) => {
         box.innerHTML = gameBoard.game[index] || "";
         box.className = "display";
-      }); 
-}
+    }); 
+    
+    gameBoard.checkWinner();
+        
+};
+
 
 
 
